@@ -54,3 +54,35 @@ def caps(update, context):
 # with this alone, you are able to write /caps <type your text> and it will repeat your text in caps!
 caps_handler = CommandHandler('caps', caps)
 dispatcher.add_handler(caps_handler)
+
+
+
+
+########## INLINE FUNCTIONALITY #############
+# inline functionality is the added functions you get while you are typing!! You have a bot without going to message him directly!
+# examples of this are like the @gif, @youtube
+
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+
+def inline_caps(update, context):
+    query = update.inline_query.query
+    if not query:
+        return
+    results = list()
+    results.append(
+        InlineQueryResultArticle(
+            id = query.upper(),
+            title = 'Caps',
+            input_message_content = InputTextMessageContent(query.upper())
+            )
+    )
+    context.bot.answer_inline_query(update.inline_query.id, results)
+
+from telegram.ext import InlineQueryHandler
+inline_caps_handler = InlineQueryHandler(inline_caps)
+dispatcher.add_handler(inline_caps_handler)
+# the normal bot still works too!
+# however, if you type 'hello!' it only gives 'HELLO'
+
+
+
