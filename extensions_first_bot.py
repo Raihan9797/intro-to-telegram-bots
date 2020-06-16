@@ -86,3 +86,13 @@ dispatcher.add_handler(inline_caps_handler)
 
 
 
+########### UNKNOWN MESSAGES FILTER ###########
+
+### THIS HANDLER MUST BE ADDED LAST. BECAUSE IF YOU ADDED IT SOONER, THIS HANDLER WILL HANDLE THE UPCOMING MESSAGES BEFORE OTHER HANDLERS THAT ACTUALLY CAN PROCESS IT PROPERLY!
+
+### you can pass the keyword argument group(int) to add_handler with a value other than 0
+def unknown(update, context):
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "Sorry, i don't understand what you just said")
+
+unknown_handler = MessageHandler(Filters.command, unknown)
+dispatcher.add_handler(unknown_handler)
