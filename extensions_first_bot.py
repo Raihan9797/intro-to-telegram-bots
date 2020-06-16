@@ -43,3 +43,14 @@ echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
 
 updater.start_polling()
+
+
+
+########### ADDING CAPS FUNCTIONALITY ##########
+def caps(update, context):
+    text_caps = ' '.join(context.args).upper()
+    context.bot.send_message(chat_id = update.effective_chat.id, text = text_caps)
+
+# with this alone, you are able to write /caps <type your text> and it will repeat your text in caps!
+caps_handler = CommandHandler('caps', caps)
+dispatcher.add_handler(caps_handler)
