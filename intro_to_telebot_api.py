@@ -1,6 +1,6 @@
 import telegram
-
-token = '1215169390:AAHV5H5AxyL56zWF4_hlB3FK47Py0UEZy4A'
+# import bot_token.token # does not work
+from bot_token import token
 
 bot = telegram.Bot(token)
 
