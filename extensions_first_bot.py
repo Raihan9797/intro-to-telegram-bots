@@ -4,9 +4,8 @@
 # creating Updaters also creates a Dispatcher linked by a Queue.
 # We handler different registers of handlers using Dispatchers which sorts updates fetched by Updater according to your specified handlers and deliver them to a callback function you defined.
 
-token = '1215169390:AAHV5H5AxyL56zWF4_hlB3FK47Py0UEZy4A'
-
 from telegram.ext import Updater
+from bot_token import token
 
 updater = Updater(token, use_context=True)
 # use context = True for better backwards compatibility
@@ -92,7 +91,16 @@ dispatcher.add_handler(inline_caps_handler)
 
 ### you can pass the keyword argument group(int) to add_handler with a value other than 0
 def unknown(update, context):
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "Sorry, i don't understand what you just said")
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "Sorry, i don't understand your command")
 
 unknown_handler = MessageHandler(Filters.command, unknown)
 dispatcher.add_handler(unknown_handler)
+
+
+
+########## USING Updater.stop() and updater.idle() ############
+# updater.stop() # this immediately stops the program lol
+
+
+### using updater.idle() allows you to use CTRL C to stop. This will call updater.stop() when you press ctrl c
+updater.idle()
