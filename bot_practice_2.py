@@ -53,14 +53,16 @@ desc_handler = CommandHandler('desc', list_descriptions)
 dispatcher.add_handler(desc_handler)
 
 ### read a letter function
-test_dict = {
-    'letter_1': 'goodbye cruel world!'
-}
+fn = 'practice data/practice_dict.json'
+with open(fn, 'r') as fo:
+    letter_dict = json.load(fo)
+
+
 def read(update, context):
     key = update.message.text.partition(' ')[2]
 
     try:
-        letter_to_read = test_dict[key]
+        letter_to_read = letter_dict[key]
         update.message.reply_text(letter_to_read)
     except KeyError:
         update.message.reply_text("no such letter found")
