@@ -17,9 +17,9 @@ with open(fn, 'r') as fo:
     descriptions = fo.read()
 
 
-def store_letters(update, context):
-    context.bot_data['names'] = names
-    context.bot_data['list_of_descriptions'] = descriptions
+# def store_letters(update, context):
+    # context.bot_data['names'] = names
+    # context.bot_data['list_of_descriptions'] = descriptions
 
 
 ### logging to see errors
@@ -29,11 +29,10 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 ### start function
 def start(update, context):
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "Starting!")
-
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "Starting! \nType '/help' to know the commands!")
+    # store data
     context.bot_data['names'] = names
     context.bot_data['descriptions'] = descriptions
-    print(context.bot_data['descriptions'])
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
@@ -69,6 +68,11 @@ def read(update, context):
 
 read_handler = CommandHandler('read',read)
 dispatcher.add_handler(read_handler)
+
+def help(update, context):
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "/list: list all the letters \n/read letter <number>: fetches the full letter")
+help_handler = CommandHandler('help', help)
+dispatcher.add_handler(help_handler)
 
 updater.start_polling()
 updater.idle()
