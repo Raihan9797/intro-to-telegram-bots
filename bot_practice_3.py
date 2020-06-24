@@ -6,11 +6,16 @@ from telegram.ext import Updater
 updater = Updater(token = token, use_context=True)
 dispatcher = updater.dispatcher
 
-### storing list of letters and dictionary into the bot_data
+### load data
 fn = 'all_letters/names.json'
 import json
 with open(fn, 'r') as fo:
     names = json.load(fo)
+
+fn = 'practice data/test_dictionary_lists.json'
+import json
+with open(fn, 'r') as fo:
+    letters = json.load(fo)
 
 ### logging to see errors
 import logging
@@ -21,6 +26,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 def start(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = "Starting bot practice 3!")
     # store data
+    context.bot_data['letters'] = letters 
     context.bot_data['names'] = names 
 
 start_handler = CommandHandler('start', start)
@@ -41,8 +47,10 @@ def read(update, context):
     key = update.message.text.partition(' ')[2]
 
     try:
-        letter_to_read = context.bot_data['letters_dict'][key]
-        update.message.reply_text(letter_to_read)
+        letter_to_read = context.bot_data['letters'][key]
+        for l in letter_to_read:
+            update.message.reply_text(l)
+
     except KeyError:
         update.message.reply_text("no such letter found")
 
